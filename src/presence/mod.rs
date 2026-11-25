@@ -5,9 +5,11 @@ mod discord;
 mod fallback;
 mod format;
 mod modelname;
+mod newchat;
 mod payload;
 mod reply;
 mod template;
+mod timer;
 mod variables;
 
 pub use builder::PresenceBuilder;

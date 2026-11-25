@@ -1,4 +1,5 @@
 mod defaults;
+mod newchat;
 mod options;
 mod paths;
 mod settings;

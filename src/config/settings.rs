@@ -1,4 +1,5 @@
 use super::options::{ActivityKind, Currency, ModelStyle, SessionPick, StatusField, TimerMode, TokenStyle};
+use super::newchat::NewChatSettings;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Clone, PartialEq, Debug)]
@@ -47,4 +48,5 @@ pub struct Settings {
     pub idleClearMinutes: u32,
     pub maxLineLength: u32,
     pub autostart: bool,
+    pub newChat: NewChatSettings,
 }

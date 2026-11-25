@@ -1,4 +1,5 @@
 use super::options::{ActivityKind, Currency, ModelStyle, SessionPick, StatusField, TimerMode, TokenStyle};
+use super::newchat::NewChatSettings;
 use super::settings::Settings;
 
 const claudeIcon: &str = "https://claude.ai/images/claude_app_icon.png";
@@ -51,6 +52,7 @@ impl Default for Settings {
             idleClearMinutes: 0,
             maxLineLength: 128,
             autostart: true,
+            newChat: NewChatSettings::default(),
         }
     }
 }

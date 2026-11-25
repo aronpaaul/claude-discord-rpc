@@ -1,6 +1,7 @@
 mod buttons;
 mod data;
 mod images;
+mod newchat;
 mod overview;
 mod privacy;
 mod service;
@@ -17,6 +18,7 @@ impl PageRouter {
         match page {
             Page::Overview => overview::OverviewPage::show(ui, state),
             Page::Texts => texts::TextsPage::show(ui, state),
+            Page::NewChat => newchat::NewChatPage::show(ui, state),
             Page::Images => images::ImagesPage::show(ui, state),
             Page::Buttons => buttons::ButtonsPage::show(ui, state),
             Page::Data => data::DataPage::show(ui, state),

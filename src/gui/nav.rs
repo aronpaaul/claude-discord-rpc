@@ -5,6 +5,7 @@ use eframe::egui::{vec2, Button, RichText, Ui};
 pub enum Page {
     Overview,
     Texts,
+    NewChat,
     Images,
     Buttons,
     Data,
@@ -19,6 +20,7 @@ impl Sidebar {
         let entries = [
             (Page::Overview, "◉  Обзор"),
             (Page::Texts, "✎  Тексты"),
+            (Page::NewChat, "✦  Новый чат"),
             (Page::Images, "▣  Картинки"),
             (Page::Buttons, "↗  Кнопки"),
             (Page::Data, "∑  Данные"),

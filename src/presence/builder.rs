@@ -1,10 +1,12 @@
 use super::buttons::ButtonCollector;
 use super::fallback::NoSessionPresence;
+use super::newchat::NewChatPresence;
 use super::payload::PresencePayload;
 use super::template::TemplateRenderer;
+use super::timer::TimerResolver;
 use super::variables::VariableSet;
 use crate::claude::ClaudeSnapshot;
-use crate::config::{Settings, TimerMode};
+use crate::config::Settings;
 
 pub struct PresenceBuilder;
 
@@ -17,6 +19,9 @@ impl PresenceBuilder {
             return None;
         }
         let variables = VariableSet::build(snapshot, settings, nowMillis);
+        if NewChatPresence::applies(settings, snapshot) {
+            return Some(NewChatPresence::build(settings, snapshot, &variables, serviceStartMillis));
+        }
         let limit = settings.maxLineLength as usize;
         let render = |template: &str| TemplateRenderer::render(template, &variables, limit);
         let (detailsTemplate, stateTemplate) = if snapshot.isBusy {
@@ -32,7 +37,7 @@ impl PresenceBuilder {
             largeText: render(&settings.largeTextTemplate),
             smallImage: Self::smallImage(settings, snapshot),
             smallText: if settings.showSmallImage { render(&settings.smallTextTemplate) } else { String::new() },
-            startSeconds: Self::startMillis(settings, snapshot, serviceStartMillis).map(|millis| millis / 1000),
+            startSeconds: TimerResolver::startSeconds(settings.timerMode, snapshot, serviceStartMillis),
             buttons: ButtonCollector::collect(settings),
             activityKind: settings.activityKind,
             statusField: settings.statusField,
@@ -50,14 +55,5 @@ impl PresenceBuilder {
         }
         let image = if snapshot.isBusy { &settings.smallImageBusy } else { &settings.smallImageIdle };
         image.trim().to_string()
-    }
-
-    fn startMillis(settings: &Settings, snapshot: &ClaudeSnapshot, serviceStartMillis: i64) -> Option<i64> {
-        match settings.timerMode {
-            TimerMode::Hidden => None,
-            TimerMode::Session => Some(snapshot.sessionStartMillis),
-            TimerMode::Task => Some(snapshot.statusSinceMillis),
-            TimerMode::ServiceStart => Some(serviceStartMillis),
-        }
     }
 }
