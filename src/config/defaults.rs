@@ -28,7 +28,7 @@ impl Default for Settings {
             showSmallImage: true,
             smallImageBusy: busyIcon.to_string(),
             smallImageIdle: idleIcon.to_string(),
-            smallTextTemplate: "{messages} запросов · {tools} инструментов".to_string(),
+            smallTextTemplate: "{prompts} запросов · {tools} инструментов".to_string(),
             firstButtonEnabled: false,
             firstButtonLabel: "Claude Code".to_string(),
             firstButtonUrl: "https://claude.com/claude-code".to_string(),
