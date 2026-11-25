@@ -1,0 +1,20 @@
+[package]
+name = "claude-discord-rpc"
+version = "1.0.0"
+edition = "2021"
+
+[[bin]]
+name = "claude-discord-rpc"
+path = "src/main.rs"
+
+[dependencies]
+eframe = { version = "0.37", default-features = false, features = ["default_fonts", "glow", "persistence"] }
+discord-rich-presence = "1.1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_System_Threading", "Win32_Security"] }
+
+[profile.release]
+opt-level = 3
+lto = true
+strip = true
