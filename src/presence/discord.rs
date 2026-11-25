@@ -40,7 +40,14 @@ impl DiscordLink {
             return;
         }
         self.lastPayload = payload.cloned();
-        self.lastError = IpcReply::expectSuccess(client).err();
+        self.lastError = None;
+        if let Err(failure) = IpcReply::expectSuccess(client) {
+            self.lastError = Some(failure.message);
+            if failure.connectionLost {
+                self.client = None;
+                self.lastPayload = None;
+            }
+        }
     }
 
     pub fn disconnect(&mut self) {
@@ -62,11 +69,6 @@ impl DiscordLink {
         let mut client = DiscordIpcClient::new(self.clientId.trim());
         if let Err(error) = client.connect() {
             self.lastError = Some(format!("Discord недоступен: {error}"));
-            return false;
-        }
-        if let Err(message) = IpcReply::expectReady(&mut client) {
-            self.lastError = Some(message);
-            let _ = client.close();
             return false;
         }
         self.client = Some(client);
