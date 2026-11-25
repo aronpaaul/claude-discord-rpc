@@ -11,10 +11,20 @@ impl OverviewPage {
     pub fn show(ui: &mut Ui, state: &mut AppState) {
         Card::pageTitle(ui, "Обзор", "Так ваш статус выглядит в Discord прямо сейчас");
         let isBusy = state.snapshot.as_ref().is_some_and(|snapshot| snapshot.isBusy);
+        let needsClientId = state.settings.clientId.trim().is_empty();
+        if needsClientId {
+            Self::connectionCard(ui, state);
+        }
         Card::show(ui, "Предпросмотр", "обновляется раз в секунду", |ui| {
             DiscordPreview::show(ui, state.preview.as_ref(), isBusy);
         });
         Card::show(ui, "Состояние", "", |ui| Self::statusLines(ui, state));
+        if !needsClientId {
+            Self::connectionCard(ui, state);
+        }
+    }
+
+    fn connectionCard(ui: &mut Ui, state: &mut AppState) {
         Card::show(ui, "Подключение к Discord", "Application ID приложения из Discord Developer Portal", |ui| {
             Fields::text(ui, "Application ID", "имя приложения станет заголовком статуса (например «Claude Code»)", &mut state.settings.clientId);
             ui.hyperlink_to("Открыть Discord Developer Portal →", "https://discord.com/developers/applications");
@@ -26,6 +36,9 @@ impl OverviewPage {
         let discordOk = service.is_some_and(|status| status.discordConnected);
         Self::line(ui, "Сервис claude-discord-rpc", service.is_some(), if service.is_some() { "работает" } else { "остановлен" });
         Self::line(ui, "Discord", discordOk, if discordOk { "подключён" } else { "не подключён" });
+        let hasClientId = !state.settings.clientId.trim().is_empty();
+        let idText = if hasClientId { "указан" } else { "не указан — без него Discord ничего не покажет" };
+        Self::line(ui, "Application ID", hasClientId, idText);
         match &state.snapshot {
             Some(snapshot) => {
                 let status = if snapshot.isBusy { "работает над задачей" } else { "ожидает" };
