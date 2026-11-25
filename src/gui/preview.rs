@@ -22,7 +22,8 @@ impl DiscordPreview {
                 ui.horizontal(|ui| {
                     Self::artwork(ui, content, isBusy);
                     ui.vertical(|ui| {
-                        ui.label(RichText::new("Claude Code").strong().size(15.0));
+                        let title = if content.name.is_empty() { "Claude Code" } else { content.name.as_str() };
+                        ui.label(RichText::new(title).strong().size(15.0));
                         Self::line(ui, &content.details, Palette::text);
                         Self::line(ui, &content.state, Palette::muted);
                         if let Some(start) = content.startSeconds {

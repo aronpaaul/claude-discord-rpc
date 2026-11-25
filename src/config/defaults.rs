@@ -16,6 +16,7 @@ impl Default for Settings {
             desktopOnly: false,
             activityKind: ActivityKind::Playing,
             statusField: StatusField::Name,
+            activityName: "Claude Code".to_string(),
             busyLabel: "Работает".to_string(),
             idleLabel: "Ожидает".to_string(),
             detailsTemplate: "{session}".to_string(),

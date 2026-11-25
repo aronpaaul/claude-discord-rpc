@@ -9,6 +9,9 @@ impl ActivityMapper {
         let mut activity = Activity::new()
             .activity_type(Self::kind(payload.activityKind))
             .status_display_type(Self::field(payload.statusField));
+        if !payload.name.is_empty() {
+            activity = activity.name(payload.name.as_str());
+        }
         if !payload.details.is_empty() {
             activity = activity.details(payload.details.as_str());
         }

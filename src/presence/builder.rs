@@ -25,6 +25,7 @@ impl PresenceBuilder {
             (&settings.idleDetailsTemplate, &settings.idleStateTemplate)
         };
         Some(PresencePayload {
+            name: render(&settings.activityName),
             details: render(detailsTemplate),
             state: render(stateTemplate),
             largeImage: settings.largeImage.trim().to_string(),

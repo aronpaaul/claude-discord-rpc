@@ -11,6 +11,9 @@ impl TextsPage {
     pub fn show(ui: &mut Ui, state: &mut AppState) {
         Card::pageTitle(ui, "Тексты", "Шаблоны строк статуса с переменными в фигурных скобках");
         let settings = &mut state.settings;
+        Card::show(ui, "Заголовок", "название активности вместо имени приложения", |ui| {
+            Fields::text(ui, "Название", "например «Claude Code» или «{model}»", &mut settings.activityName);
+        });
         Card::show(ui, "Когда Claude работает", "", |ui| {
             Fields::text(ui, "Первая строка", "details", &mut settings.detailsTemplate);
             Fields::text(ui, "Вторая строка", "state", &mut settings.stateTemplate);

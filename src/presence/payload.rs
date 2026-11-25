@@ -2,6 +2,7 @@ use crate::config::{ActivityKind, StatusField};
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct PresencePayload {
+    pub name: String,
     pub details: String,
     pub state: String,
     pub largeImage: String,

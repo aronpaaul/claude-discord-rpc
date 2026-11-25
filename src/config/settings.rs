@@ -12,6 +12,7 @@ pub struct Settings {
     pub desktopOnly: bool,
     pub activityKind: ActivityKind,
     pub statusField: StatusField,
+    pub activityName: String,
     pub busyLabel: String,
     pub idleLabel: String,
     pub detailsTemplate: String,

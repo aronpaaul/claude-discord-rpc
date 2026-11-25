@@ -16,10 +16,11 @@ impl NoSessionPresence {
             _ => Some(serviceStartMillis / 1000),
         };
         Some(PresencePayload {
+            name: TemplateRenderer::render(&settings.activityName, &[], limit),
             details: TemplateRenderer::render(&settings.noSessionText, &[], limit),
             state: String::new(),
             largeImage: settings.largeImage.trim().to_string(),
-            largeText: "Claude Code".to_string(),
+            largeText: TemplateRenderer::render(&settings.activityName, &[], limit),
             smallImage: if settings.showSmallImage { settings.smallImageIdle.trim().to_string() } else { String::new() },
             smallText: String::new(),
             startSeconds,
