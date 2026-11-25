@@ -4,10 +4,13 @@ pub struct AppPaths;
 
 impl AppPaths {
     pub fn dataDir() -> PathBuf {
-        let appData = std::env::var("APPDATA").unwrap_or_else(|_| ".".to_string());
-        let directory = PathBuf::from(appData).join("claude-discord-rpc");
+        let directory = Self::userProfile().join(".claude-discord-rpc");
         let _ = std::fs::create_dir_all(&directory);
         directory
+    }
+
+    fn userProfile() -> PathBuf {
+        PathBuf::from(std::env::var("USERPROFILE").unwrap_or_else(|_| ".".to_string()))
     }
 
     pub fn settingsFile() -> PathBuf {
@@ -19,8 +22,7 @@ impl AppPaths {
     }
 
     pub fn claudeHome() -> PathBuf {
-        let profile = std::env::var("USERPROFILE").unwrap_or_else(|_| ".".to_string());
-        PathBuf::from(profile).join(".claude")
+        Self::userProfile().join(".claude")
     }
 
     pub fn liveSessionsDir() -> PathBuf {
